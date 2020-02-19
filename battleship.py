@@ -447,7 +447,7 @@ class game:
 
         #resets player if gameover   
         if keys[pygame.K_RETURN] and self.gameover == True:
-                self.reset()
+            self.reset()
 
         #rotates ship       
         if keys[pygame.K_SPACE]:
