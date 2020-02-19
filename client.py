@@ -32,6 +32,6 @@ def main():
         if p1.player_ready == False and p2.gameover == True:
             pass
         else:
-            p1.move(screen, p2)
+            p1.key_press(screen, p2)
         redrawWindow(screen, p1, p2)
 main()
