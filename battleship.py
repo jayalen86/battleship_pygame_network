@@ -42,10 +42,6 @@ class game:
         self.gameover = False
         self.display_strikes = False
 
-    def check_display_strikes(self, player2):
-        if self.gameover == False and player2.gameover == False:
-            self.display_strikes = True
-
     def reset(self):
         self.turn = False if self.id % 2 == 1 else True
         self.strikes = 0
@@ -66,7 +62,10 @@ class game:
         self.cruiser = [[4,0], [4,1], [4,2], [4,3], [4,4]]
         self.cruiser_status = [False, 'Horizontal', 'cruiser']
         self.display_strikes = False
-       
+
+    def check_display_strikes(self, player2):
+        if self.gameover == False and player2.gameover == False:
+            self.display_strikes = True
                
     def get_hits(self, p2):
         if self.gameover == False:
@@ -79,8 +78,7 @@ class game:
         else:
             if self.strikes == p2.strikes:
                 self.turn = True
-                
-                
+                              
     def draw(self, screen, player2):
         screen.fill((0,0,0))
         screen.blit(background,(20,10))
@@ -106,7 +104,9 @@ class game:
                 grid[location[0]][location[1]] = "cruiser"
         self.grid = grid
         #draws boats
-        self.draw_boats(screen, player2)
+        self.draw_boats(screen)
+        #draws opponent hits
+        self.draw_explosions(screen)
         #draws player2
         self.draw_player2(screen, player2)
         #draws bottom text
@@ -129,7 +129,7 @@ class game:
         screen.blit(text2, (430-(text2.get_width()/2), 452))
         
     def draw_player2(self, screen, player2):
-        if player2.player_ready == True and self.player_ready == True:
+        if self.player_ready == True and player2.player_ready == True:
             screen.blit(background,(440,10))
             y_coordinate = -30
             for item in self.grid:
@@ -179,7 +179,7 @@ class game:
             screen.blit(text2, (430-(text2.get_width()/2), 430))
             screen.blit(text3, (430-(text3.get_width()/2), 452))
             
-    def draw_boats(self, screen, player2):
+    def draw_boats(self, screen):
         patrol_boat_switch = False
         submarine_switch = False
         destroyer_switch = False
@@ -221,8 +221,10 @@ class game:
                         screen.blit(cruiser_v,(x_coordinate, y_coordinate))
                     cruiser_switch = True
                 x_coordinate += 40
-        #marks where opponent hit
-        if self.display_strikes == True :
+
+
+    def draw_explosions(self, screen):
+        if self.display_strikes == True:
             for location in self.opponent_hits:
                 x_coordinate = 20+(location[0]*40)
                 y_coordinate = 10+(location[1]*40)
