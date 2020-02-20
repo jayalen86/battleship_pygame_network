@@ -78,30 +78,52 @@ class game:
         else:
             if self.strikes == p2.strikes:
                 self.turn = True
-                              
+
+    def overlapping(self, ship, _type):
+        for location in ship:
+            if type(self.grid[location[0]][location[1]]) != tuple:
+                if self.grid[location[0]][location[1]] != _type:
+                    return True
+        return False
+    
+    def adjust_location(self, ship, _type):
+        while self.overlapping(ship, _type) == True:
+            for location in ship:
+                if ship[len(ship)-1][0] != 9:
+                    location[0] += 1
+                else:
+                    location[1] += 1
+        return ship
+    
     def draw(self, screen, player2):
         screen.fill((0,0,0))
         screen.blit(background,(20,10))
-        #updates grid
+        #updates grid (only displays new ship once prior ship is set in place)
         grid = [[(255,255,255) for x in range(10)] for y in range(10)]
+        
         for location in self.patrol_boat:
            grid[location[0]][location[1]] = "patrol_boat"
-
+           
         if self.patrol_boat_status[0] == True:
+            self.submarine = self.adjust_location(self.submarine, "submarine")
             for location in self.submarine:
                 grid[location[0]][location[1]] = "submarine"
 
         if self.submarine_status[0] == True:
+            self.destroyer = self.adjust_location(self.destroyer, "destroyer")
             for location in self.destroyer:
                 grid[location[0]][location[1]] = "destroyer"
 
         if self.destroyer_status[0] == True:
+            self.battleship = self.adjust_location(self.battleship, "battleship")
             for location in self.battleship:
                grid[location[0]][location[1]] = "battleship"
 
         if self.battleship_status[0] == True:
+            self.cruiser = self.adjust_location(self.cruiser, "cruiser")
             for location in self.cruiser:
                 grid[location[0]][location[1]] = "cruiser"
+
         self.grid = grid
         #draws boats
         self.draw_boats(screen)
@@ -314,8 +336,8 @@ class game:
             if type(self.grid[x[0]][x[1]]) == str:
                 if self.grid[x[0]][x[1]] != _type:
                     pygame.mixer.Sound.play(error_sound)
-                    return False
-        return True              
+                    return True
+        return False              
         
     def rotate_boat(self, ship, old_direction, _type):
         old_location = self.save_old_location(ship)
@@ -325,8 +347,8 @@ class game:
             else:
                 ship[num] = [ship[0][0], ship[0][1]+num]
         new_location = self.boundary_adjust(ship)
-        viable_move = self.check_overlap(new_location, _type)
-        if viable_move == True:
+        overlapping = self.check_overlap(new_location, _type)
+        if overlapping == False:
             direction = 'Horizontal' if old_direction == 'Vertical' else 'Vertical'
             location = new_location
         else:
@@ -370,7 +392,8 @@ class game:
                 if position[0] > x_coords[0] and position[0] < x_coords[1]:
                     if position[1] > y_coords[0] and position[1] < y_coords[1]:
                         self.check_hit_miss(player2.grid[y][x], x, y)
-    
+
+
     def key_press(self, screen, player2):
         keys = pygame.key.get_pressed()
         mouse = pygame.mouse.get_pressed()
@@ -471,7 +494,3 @@ class game:
             if self.turn == True and (self.player_ready and player2.player_ready):
                 position = pygame.mouse.get_pos()
                 self.launch_missle(position, player2)
-
-        
-            
-            
