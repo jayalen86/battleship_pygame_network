@@ -267,7 +267,6 @@ class game:
                 self.strikes += 1
                 pygame.mixer.Sound.play(miss_sound)
     
-
     def check_game_over(self, player2):
         if self.gameover == False and player2.gameover == False:
             if len(self.hits) == 17:
@@ -392,103 +391,116 @@ class game:
                 if position[0] > x_coords[0] and position[0] < x_coords[1]:
                     if position[1] > y_coords[0] and position[1] < y_coords[1]:
                         self.check_hit_miss(player2.grid[y][x], x, y)
+                        
+    def left_arrow_pressed(self):
+        if self.patrol_boat_status[0]  == False:
+            self.patrol_boat = self.move_left(self.patrol_boat[0][1], self.patrol_boat, self.patrol_boat_status[2])    
+        elif self.submarine_status[0] == False:
+            self.submarine = self.move_left(self.submarine[0][1], self.submarine, self.submarine_status[2])
+        elif self.destroyer_status[0] == False:
+            self.destroyer = self.move_left(self.destroyer[0][1], self.destroyer, self.destroyer_status[2])
+        elif self.battleship_status[0] == False:
+            self.battleship = self.move_left(self.battleship[0][1], self.battleship, self.battleship_status[2])
+        elif self.cruiser_status[0] == False:
+            self.cruiser = self.move_left(self.cruiser[0][1], self.cruiser, self.cruiser_status[2])
+        else:
+            pass
+        
+    def right_arrow_pressed(self):
+        if self.patrol_boat_status[0]  == False:
+            self.patrol_boat = self.move_right(self.patrol_boat[1][1], self.patrol_boat, self.patrol_boat_status[2])    
+        elif self.submarine_status[0] == False:
+            self.submarine = self.move_right(self.submarine[2][1], self.submarine, self.submarine_status[2])
+        elif self.destroyer_status[0] == False:
+            self.destroyer = self.move_right(self.destroyer[2][1], self.destroyer, self.destroyer_status[2])
+        elif self.battleship_status[0] == False:
+            self.battleship = self.move_right(self.battleship[3][1], self.battleship, self.battleship_status[2])
+        elif self.cruiser_status[0] == False:
+            self.cruiser = self.move_right(self.cruiser[4][1], self.cruiser, self.cruiser_status[2])
+        else:
+            pass
+        
+    def up_arrow_pressed(self):
+        if self.patrol_boat_status[0]  == False:
+            self.patrol_boat = self.move_up(self.patrol_boat[0][0], self.patrol_boat, self.patrol_boat_status[2])    
+        elif self.submarine_status[0] == False:
+            self.submarine = self.move_up(self.submarine[0][0], self.submarine, self.submarine_status[2])
+        elif self.destroyer_status[0] == False:
+            self.destroyer = self.move_up(self.destroyer[0][0], self.destroyer, self.destroyer_status[2])
+        elif self.battleship_status[0] == False:
+            self.battleship = self.move_up(self.battleship[0][0], self.battleship, self.battleship_status[2])
+        elif self.cruiser_status[0] == False:
+            self.cruiser = self.move_up(self.cruiser[0][0], self.cruiser, self.cruiser_status[2])
+        else:
+            pass
+        
+    def down_arrow_pressed(self):
+        if self.patrol_boat_status[0]  == False:
+            self.patrol_boat = self.move_down(self.patrol_boat[1][0], self.patrol_boat, self.patrol_boat_status[2])    
+        elif self.submarine_status[0] == False:
+            self.submarine = self.move_down(self.submarine[2][0], self.submarine, self.submarine_status[2])
+        elif self.destroyer_status[0] == False:
+            self.destroyer = self.move_down(self.destroyer[2][0], self.destroyer, self.destroyer_status[2])
+        elif self.battleship_status[0] == False:
+            self.battleship = self.move_down(self.battleship[3][0], self.battleship, self.battleship_status[2])
+        elif self.cruiser_status[0] == False:
+            self.cruiser = self.move_down(self.cruiser[4][0], self.cruiser, self.cruiser_status[2])
+        else:
+            pass
 
+    def enter_key_pressed(self):
+        if self.patrol_boat_status[0] == False:
+            self.patrol_boat_status[0] = True
+        elif self.submarine_status[0] == False:
+            self.submarine_status[0] = True
+        elif self.destroyer_status[0] == False:
+            self.destroyer_status[0] = True
+        elif self.battleship_status[0] == False:
+            self.battleship_status[0] = True
+        elif self.cruiser_status[0] == False:
+            self.cruiser_status[0] = True
+            self.player_ready = True
+        else:
+            pass
 
+    def spacebar_pressed(self):
+        if self.patrol_boat_status[0] == False:
+            self.patrol_boat, self.patrol_boat_status[1] = self.rotate_boat(self.patrol_boat, self.patrol_boat_status[1], 'patrol_boat')
+        elif self.submarine_status[0] == False:
+            self.submarine, self.submarine_status[1] = self.rotate_boat(self.submarine, self.submarine_status[1], 'submarine')
+        elif self.destroyer_status[0] == False:
+            self.destroyer, self.destroyer_status[1] = self.rotate_boat(self.destroyer, self.destroyer_status[1], 'destroyer')
+        elif self.battleship_status[0] == False:
+            self.battleship, self.battleship_status[1] = self.rotate_boat(self.battleship, self.battleship_status[1], 'battleship')
+        elif self.cruiser_status[0] == False:
+            self.cruiser, self.cruiser_status[1] = self.rotate_boat(self.cruiser, self.cruiser_status[1], 'cruiser')
+        else:
+            pass
+    
     def key_press(self, screen, player2):
         keys = pygame.key.get_pressed()
         mouse = pygame.mouse.get_pressed()
         #move left
         if keys[pygame.K_LEFT]:
-            if self.patrol_boat_status[0]  == False:
-                self.patrol_boat = self.move_left(self.patrol_boat[0][1], self.patrol_boat, self.patrol_boat_status[2])    
-            elif self.submarine_status[0] == False:
-                self.submarine = self.move_left(self.submarine[0][1], self.submarine, self.submarine_status[2])
-            elif self.destroyer_status[0] == False:
-                self.destroyer = self.move_left(self.destroyer[0][1], self.destroyer, self.destroyer_status[2])
-            elif self.battleship_status[0] == False:
-                self.battleship = self.move_left(self.battleship[0][1], self.battleship, self.battleship_status[2])
-            elif self.cruiser_status[0] == False:
-                self.cruiser = self.move_left(self.cruiser[0][1], self.cruiser, self.cruiser_status[2])
-            else:
-                pass
+            self.left_arrow_pressed()
         #move right
         if keys[pygame.K_RIGHT]:
-            if self.patrol_boat_status[0]  == False:
-                self.patrol_boat = self.move_right(self.patrol_boat[1][1], self.patrol_boat, self.patrol_boat_status[2])    
-            elif self.submarine_status[0] == False:
-                self.submarine = self.move_right(self.submarine[2][1], self.submarine, self.submarine_status[2])
-            elif self.destroyer_status[0] == False:
-                self.destroyer = self.move_right(self.destroyer[2][1], self.destroyer, self.destroyer_status[2])
-            elif self.battleship_status[0] == False:
-                self.battleship = self.move_right(self.battleship[3][1], self.battleship, self.battleship_status[2])
-            elif self.cruiser_status[0] == False:
-                self.cruiser = self.move_right(self.cruiser[4][1], self.cruiser, self.cruiser_status[2])
-            else:
-                pass
+            self.right_arrow_pressed()
         #move up
         if keys[pygame.K_UP]:
-            if self.patrol_boat_status[0]  == False:
-                self.patrol_boat = self.move_up(self.patrol_boat[0][0], self.patrol_boat, self.patrol_boat_status[2])    
-            elif self.submarine_status[0] == False:
-                self.submarine = self.move_up(self.submarine[0][0], self.submarine, self.submarine_status[2])
-            elif self.destroyer_status[0] == False:
-                self.destroyer = self.move_up(self.destroyer[0][0], self.destroyer, self.destroyer_status[2])
-            elif self.battleship_status[0] == False:
-                self.battleship = self.move_up(self.battleship[0][0], self.battleship, self.battleship_status[2])
-            elif self.cruiser_status[0] == False:
-                self.cruiser = self.move_up(self.cruiser[0][0], self.cruiser, self.cruiser_status[2])
-            else:
-                pass
+            self.up_arrow_pressed()
         #move down    
         if keys[pygame.K_DOWN]:
-            if self.patrol_boat_status[0]  == False:
-                self.patrol_boat = self.move_down(self.patrol_boat[1][0], self.patrol_boat, self.patrol_boat_status[2])    
-            elif self.submarine_status[0] == False:
-                self.submarine = self.move_down(self.submarine[2][0], self.submarine, self.submarine_status[2])
-            elif self.destroyer_status[0] == False:
-                self.destroyer = self.move_down(self.destroyer[2][0], self.destroyer, self.destroyer_status[2])
-            elif self.battleship_status[0] == False:
-                self.battleship = self.move_down(self.battleship[3][0], self.battleship, self.battleship_status[2])
-            elif self.cruiser_status[0] == False:
-                self.cruiser = self.move_down(self.cruiser[4][0], self.cruiser, self.cruiser_status[2])
-            else:
-                pass
-
+            self.down_arrow_pressed()
         #sets ship in place    
         if keys[pygame.K_RETURN] and self.gameover == False:
-            if self.patrol_boat_status[0] == False:
-                self.patrol_boat_status[0] = True
-            elif self.submarine_status[0] == False:
-                self.submarine_status[0] = True
-            elif self.destroyer_status[0] == False:
-                self.destroyer_status[0] = True
-            elif self.battleship_status[0] == False:
-                self.battleship_status[0] = True
-            elif self.cruiser_status[0] == False:
-                self.cruiser_status[0] = True
-                self.player_ready = True
-            else:
-                pass
-
+            self.enter_key_pressed()
         #resets player if gameover   
         if keys[pygame.K_RETURN] and self.gameover == True:
             self.reset()
-
         #rotates ship       
         if keys[pygame.K_SPACE]:
-            if self.patrol_boat_status[0] == False:
-                self.patrol_boat, self.patrol_boat_status[1] = self.rotate_boat(self.patrol_boat, self.patrol_boat_status[1], 'patrol_boat')
-            elif self.submarine_status[0] == False:
-                self.submarine, self.submarine_status[1] = self.rotate_boat(self.submarine, self.submarine_status[1], 'submarine')
-            elif self.destroyer_status[0] == False:
-                self.destroyer, self.destroyer_status[1] = self.rotate_boat(self.destroyer, self.destroyer_status[1], 'destroyer')
-            elif self.battleship_status[0] == False:
-                self.battleship, self.battleship_status[1] = self.rotate_boat(self.battleship, self.battleship_status[1], 'battleship')
-            elif self.cruiser_status[0] == False:
-                self.cruiser, self.cruiser_status[1] = self.rotate_boat(self.cruiser, self.cruiser_status[1], 'cruiser')
-            else:
-                pass
-            
+            self.spacebar_pressed() 
         #launches missile
         if mouse[0] and (self.gameover == False and player2.gameover == False):
             if self.turn == True and (self.player_ready and player2.player_ready):
