@@ -155,6 +155,7 @@ class game:
         if self.player_ready == True and player2.player_ready == True:
             screen.blit(background,(440,10))
             y_coordinate = -30
+            #draws grid lines
             for item in player2.grid:
                 x_coordinate = 440
                 y_coordinate += 40
