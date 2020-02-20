@@ -95,12 +95,9 @@ class game:
                     location[1] += 1
         return ship
     
-    def draw(self, screen, player2):
-        screen.fill((0,0,0))
-        screen.blit(background,(20,10))
-        #updates grid (only displays new ship once prior ship is set in place)
+    def update_grid(self):
         grid = [[(255,255,255) for x in range(10)] for y in range(10)]
-        
+        #the following only accounts for new ship once prior ship is set in place
         for location in self.patrol_boat:
            grid[location[0]][location[1]] = "patrol_boat"
            
@@ -123,8 +120,13 @@ class game:
             self.cruiser = self.adjust_location(self.cruiser, "cruiser")
             for location in self.cruiser:
                 grid[location[0]][location[1]] = "cruiser"
-
-        self.grid = grid
+        return grid
+    
+    def draw(self, screen, player2):
+        screen.fill((0,0,0))
+        screen.blit(background,(20,10))
+        #updates grid with boat locations
+        self.grid = self.update_grid()
         #draws boats
         self.draw_boats(screen)
         #draws opponent hits
@@ -167,7 +169,7 @@ class game:
                 pygame.draw.rect(screen, (255,0,0), (x_coordinate, y_coordinate, 40, 40), 1)
                 pygame.draw.line(screen, (255,0,0), (x_coordinate, y_coordinate), (x_coordinate+40, y_coordinate+40), 1)
                 pygame.draw.line(screen, (255,0,0), (x_coordinate+40, y_coordinate),(x_coordinate, y_coordinate+40), 1)
-            #hit
+            #hits
             for location in self.hits:
                 x_coordinate = 440+(location[0]*40)
                 y_coordinate = 10+(location[1]*40)
@@ -243,7 +245,6 @@ class game:
                         screen.blit(cruiser_v,(x_coordinate, y_coordinate))
                     cruiser_switch = True
                 x_coordinate += 40
-
 
     def draw_explosions(self, screen):
         if self.display_strikes == True:
