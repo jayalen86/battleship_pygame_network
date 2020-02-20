@@ -393,6 +393,21 @@ class game:
                     if position[1] > y_coords[0] and position[1] < y_coords[1]:
                         self.check_hit_miss(player2.grid[y][x], x, y)
                         
+    def set_ship(self):
+        if self.patrol_boat_status[0] == False:
+            self.patrol_boat_status[0] = True
+        elif self.submarine_status[0] == False:
+            self.submarine_status[0] = True
+        elif self.destroyer_status[0] == False:
+            self.destroyer_status[0] = True
+        elif self.battleship_status[0] == False:
+            self.battleship_status[0] = True
+        elif self.cruiser_status[0] == False:
+            self.cruiser_status[0] = True
+            self.player_ready = True
+        else:
+            pass
+                        
     def left_arrow_pressed(self):
         if self.patrol_boat_status[0]  == False:
             self.patrol_boat = self.move_left(self.patrol_boat[0][1], self.patrol_boat, self.patrol_boat_status[2])    
@@ -449,21 +464,6 @@ class game:
         else:
             pass
 
-    def enter_key_pressed(self):
-        if self.patrol_boat_status[0] == False:
-            self.patrol_boat_status[0] = True
-        elif self.submarine_status[0] == False:
-            self.submarine_status[0] = True
-        elif self.destroyer_status[0] == False:
-            self.destroyer_status[0] = True
-        elif self.battleship_status[0] == False:
-            self.battleship_status[0] = True
-        elif self.cruiser_status[0] == False:
-            self.cruiser_status[0] = True
-            self.player_ready = True
-        else:
-            pass
-
     def spacebar_pressed(self):
         if self.patrol_boat_status[0] == False:
             self.patrol_boat, self.patrol_boat_status[1] = self.rotate_boat(self.patrol_boat, self.patrol_boat_status[1], 'patrol_boat')
@@ -477,7 +477,13 @@ class game:
             self.cruiser, self.cruiser_status[1] = self.rotate_boat(self.cruiser, self.cruiser_status[1], 'cruiser')
         else:
             pass
-    
+        
+    def enter_key_pressed(self):
+        if self.gameover == False:
+            self.set_ship()
+        else:
+            self.reset()
+            
     def key_press(self, screen, player2):
         keys = pygame.key.get_pressed()
         mouse = pygame.mouse.get_pressed()
@@ -493,12 +499,9 @@ class game:
         #move down    
         if keys[pygame.K_DOWN]:
             self.down_arrow_pressed()
-        #sets ship in place    
-        if keys[pygame.K_RETURN] and self.gameover == False:
+        #sets ship in place or resets game if over   
+        if keys[pygame.K_RETURN]:
             self.enter_key_pressed()
-        #resets player if gameover   
-        if keys[pygame.K_RETURN] and self.gameover == True:
-            self.reset()
         #rotates ship       
         if keys[pygame.K_SPACE]:
             self.spacebar_pressed() 
