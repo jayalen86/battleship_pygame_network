@@ -122,7 +122,7 @@ class game:
                 grid[location[0]][location[1]] = "cruiser"
         return grid
     
-    def draw(self, screen, player2):
+    def refresh_screen(self, screen, player2):
         screen.fill((0,0,0))
         screen.blit(background,(20,10))
         #updates grid with boat locations
@@ -140,7 +140,6 @@ class game:
             self.draw_text(screen, player2)
         #switch whether to display opponent hits during reset period
         self.check_display_strikes(player2)
-        return
     
     def draw_gameover_text(self, screen):
         font = pygame.font.Font(pygame.font.get_default_font(), 16)

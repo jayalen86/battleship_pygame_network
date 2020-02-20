@@ -4,7 +4,7 @@ from battleship import game
 
 
 def redrawWindow(screen, player1, player2):
-    player1.draw(screen, player2)
+    player1.refresh_screen(screen, player2)
     pygame.display.update()
 
 def main():
