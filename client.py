@@ -21,11 +21,12 @@ def main():
     while running:
         clock.tick(10)
         p2 = n.send(p1)
-        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
                 pygame.quit()
+        if running == False:
+            break
         p1.check_turn(p2)
         p1.get_hits(p2)
         p1.check_game_over(p2)
