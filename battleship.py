@@ -385,13 +385,13 @@ class game:
         return ship
 
     def launch_missle(self, position, player2):
-        y_axises = [[440, 480], [480, 520], [520, 560], [560, 600], [600, 640], [640, 680], [680, 720], [720, 760], [760, 800], [800, 840]]
-        x_axises = [[10, 50], [50,90], [90, 130], [130, 170], [170, 210], [210, 250], [250,290], [290, 330], [330, 370], [370, 410]] 
-        for y, y_coords in enumerate(y_axises):
-            for x, x_coords in enumerate(x_axises): 
-                if position[0] > y_coords[0] and position[0] < y_coords[1]:
-                    if position[1] > x_coords[0] and position[1] < x_coords[1]:
-                        self.check_hit_miss(player2.grid[x][y], y, x)
+        x_axises = [[440, 480], [480, 520], [520, 560], [560, 600], [600, 640], [640, 680], [680, 720], [720, 760], [760, 800], [800, 840]]
+        y_axises = [[10, 50], [50,90], [90, 130], [130, 170], [170, 210], [210, 250], [250,290], [290, 330], [330, 370], [370, 410]] 
+        for x, x_coords in enumerate(x_axises):
+            for y, y_coords in enumerate(y_axises): 
+                if position[0] > x_coords[0] and position[0] < x_coords[1]:
+                    if position[1] > y_coords[0] and position[1] < y_coords[1]:
+                        self.check_hit_miss(player2.grid[y][x], x, y)
                         
     def set_ship(self):
         if self.patrol_boat_status[0] == False:
